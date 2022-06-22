@@ -21,8 +21,13 @@ def customers():
 
 
 @app.route('/customer/<customer_id>')
-def profile(customer_id):
+def customer(customer_id):
     return "Get customer with an id, if the customer exists", 200
+
+
+@app.route('/customer/<customer_id>', methods = ['PUT'])
+def customer_id(customer_id):
+    return "Update customer with an id, if the customer exists"
 
 
 if __name__ == "__main__":
