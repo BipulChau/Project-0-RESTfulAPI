@@ -22,7 +22,7 @@ def customers():
 
 @app.route('/customer/<customer_name>')
 def profile(customer_name):
-    return "Profile of individual customer appears here", 200
+    return "Profile of individual customer appears here", 201
 
 
 if __name__ == "__main__":
