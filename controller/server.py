@@ -10,9 +10,14 @@ def home():
     return "Welcome to MyBank : Fast, Friendly & Accurate Service", 200
 
 
-@app.route('/customers/', methods=['GET', 'POST', 'PUT'])
+@app.route('/customers/')
 def customers():
-    return "Details of all customers appears here", 200
+    return "Gets all customers", 200
+
+
+@app.route('/customers/', methods=['POST'])
+def customers():
+    return "Creates a new customer", 200
 
 
 @app.route('/customer/<customer_name>')
