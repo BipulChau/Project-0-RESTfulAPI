@@ -17,12 +17,12 @@ def customers():
 
 @app.route('/customers/', methods=['POST'])
 def customers():
-    return "Creates a new customer", 200
+    return "Creates a new customer", 201
 
 
-@app.route('/customer/<customer_name>')
-def profile(customer_name):
-    return "Profile of individual customer appears here", 201
+@app.route('/customer/<customer_id>')
+def profile(customer_id):
+    return "Get customer with an id, if the customer exists", 200
 
 
 if __name__ == "__main__":
