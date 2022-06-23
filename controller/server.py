@@ -9,8 +9,8 @@ customers_db = {
         "tel_num": "947-333-3367",
         "account": [
             {"account_type": "saving account",
-             "is_open": False,
-             "balance": None},
+             "is_open": True,
+             "balance": 5000},
             {"account_type": "checking account",
              "is_open": True,
              "balance": 10000.00
@@ -94,6 +94,25 @@ def create_profile():
 def get_all_accounts_of_customer(customer_id):
     if customer_id not in customers_db:
         return f"Customer with id {customer_id} does not exist", 404
+
+    # GET /customer/{customer_id}/accounts?amountLessThan=1000&amountGreaterThan=300:
+    # Get all accounts for customer id of X with balances between Y and Z (if customer exists)
+    args = request.args
+    balance = args.getlist('balance')
+
+    if balance:
+        maximum_balance = int(balance[0][1::])
+        minimum_balance = int(balance[1][1::])
+        print(maximum_balance, minimum_balance)
+        account_with_balance = []
+        if not customers_db[customer_id]["account"]:
+            return f"For customer with id {customer_id} accounts not opened yet"
+        for account in customers_db[customer_id]["account"]:
+            if minimum_balance < account["balance"] < maximum_balance:
+                account_with_balance.append(account)
+        if account_with_balance:
+            return {"account": account_with_balance}, 200
+        return f"There are no accounts for customer id {customer_id} with balances between {minimum_balance} and {maximum_balance}."
 
     return {"name": customers_db[customer_id]["name"],
             "account": customers_db[customer_id]["account"]
