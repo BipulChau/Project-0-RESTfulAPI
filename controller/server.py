@@ -70,5 +70,25 @@ def get_customer_by_customer_id(customer_id):
         return f"Account with customer id {customer_id} could not be found", 404
 
 
+@app.route("/customers", methods=['POST'])
+def create_profile():
+    data = request.get_json()
+    print(data["customer_id"])
+    if data["customer_id"] in customers_db:
+        return "Profile already exists!!! Cannot create a new Profile", 400
+    else:
+        customers_db[data["customer_id"]] = {"name": data["name"],
+                                             "address": data["address"],
+                                             "tel_num": data["tel_num"],
+                                             "account": []
+                                             }
+        return {"name": data["name"],
+                "customer_id": data["customer_id"],
+                "address": data["address"],
+                "tel_num": data["tel_num"],
+                "account": []
+                }, 200
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=3133)
