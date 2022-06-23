@@ -90,5 +90,15 @@ def create_profile():
                 }, 200
 
 
+@app.route("/customers/<customer_id>/account")
+def get_all_accounts_of_customer(customer_id):
+    if customer_id not in customers_db:
+        return f"Customer with id {customer_id} does not exist", 404
+
+    return {"name": customers_db[customer_id]["name"],
+            "account": customers_db[customer_id]["account"]
+            }
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=3133)
