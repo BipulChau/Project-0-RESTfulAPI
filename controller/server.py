@@ -57,22 +57,18 @@ def customer_details():
            }, 200
 
 
-#
-#
-# @app.route('/customers/', methods=['POST'])
-# def customers():
-#     return "Creates a new customer", 201
-#
+@app.route("/customers/<customer_id>")
+def get_customer_by_customer_id(customer_id):
+    if customer_id in customers_db:
+        return {customers_db[customer_id]["name"]:
+                    {"customer_id": customer_id,
+                     "address": customers_db[customer_id]["address"],
+                     "tel_num": customers_db[customer_id]["tel_num"],
+                     "account": customers_db[customer_id]["account"]}
+                }, 200
+    else:
+        return f"Account with customer id {customer_id} could not be found", 404
 
-# @app.route('/customer/<customer_id>')
-# def customer(customer_id):
-#     return "Get customer with an id, if the customer exists", 200
-#
-#
-# @app.route('/customer/<customer_id>', methods=['PUT'])
-# def customer_id(customer_id):
-#     return "Update customer with an id, if the customer exists"
-#
 
 if __name__ == "__main__":
     app.run(debug=True, port=3133)
