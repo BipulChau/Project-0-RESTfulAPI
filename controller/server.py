@@ -43,9 +43,18 @@ def home():
 
 @app.route('/customers')
 def customer_details():
-    print(type(customers_db))
-
-    return customers_db, 200
+    all_customers = []
+    for key in customers_db:
+        customer_individual = {customers_db[key]["name"]:
+                                   {"customer_id": key,
+                                    "address": customers_db[key]["address"],
+                                    "tel_num": customers_db[key]["tel_num"],
+                                    "account": customers_db[key]["account"]}
+                               }
+        all_customers.append(customer_individual)
+    return {
+               "customers": all_customers
+           }, 200
 
 
 #
