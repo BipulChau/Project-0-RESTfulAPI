@@ -1,5 +1,6 @@
 from flask import Blueprint, request
-
+from dao.customer_dao import CustomerDao
+from service.customer_service import CustomerService
 
 cc = Blueprint("customer_controller", __name__)
 
@@ -7,10 +8,15 @@ cc = Blueprint("customer_controller", __name__)
 @cc.route("/")
 @cc.route("/home")
 @cc.route("/index")
-def get_all_customers():
+def get_home_page():
     return "Oggy App - One stop to get all the details about customers, create accounts and update customers & account info !!! "
 
 
+@cc.route("/customers")
+def get_all_customers():
+    return {
+        "customers": CustomerService.get_all_customers()
+        }
 # app = Flask(__name__)
 #
 # customers_db = {
