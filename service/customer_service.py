@@ -1,5 +1,6 @@
 from dao.customer_dao import CustomerDao
 from model.customer import Customer
+from dao.customer_dao import CustomerDao
 
 
 class CustomerService:
@@ -16,6 +17,16 @@ class CustomerService:
             customers_all_list_formatted.append(customer_obj.to_dict())
 
         return customers_all_list_formatted
+
+    @staticmethod
+    def add_customer(data):
+
+        name = data["name"]
+        address = data["address"]
+        mobile_phone = data["mobile_phone"]
+        customer_data = (name, address, mobile_phone)
+        print(f"Customer details at Service layer: {customer_data}")
+        return CustomerDao.add_customer(customer_data)
 
 
 CustomerService.get_all_customers()

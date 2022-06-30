@@ -1,3 +1,4 @@
+import flask
 from flask import Blueprint, request
 from dao.customer_dao import CustomerDao
 from service.customer_service import CustomerService
@@ -12,11 +13,18 @@ def get_home_page():
     return "Oggy App - One stop to get all the details about customers, create accounts and update customers & account info !!! "
 
 
-@cc.route("/customers")
+@cc.route("/customers", methods=["GET", "POST"])
 def get_all_customers():
-    return {
-        "customers": CustomerService.get_all_customers()
+    if flask.request.method == "POST":
+        data = request.get_json()
+        print(data)
+        print(type(data))
+        return CustomerService.add_customer(data)
+    else:
+        return {
+            "customers": CustomerService.get_all_customers()
         }
+# app = Flask
 # app = Flask(__name__)
 #
 # customers_db = {
