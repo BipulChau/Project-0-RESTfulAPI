@@ -20,10 +20,12 @@ class CustomerDao:
         with psycopg.connect(host="127.0.0.1", port="5432", dbname="postgres", user="postgres",
                              password="postgres") as conn:
             with conn.cursor() as cur:
-                cur.execute("INSERT INTO customers (name, address, mobile_phone) VALUES (%s, %s, %s) RETURNING *", (data[0],
-                                                                                                                data[1],
-                                                                                                                data[
-                                                                                                                    2]))
+                cur.execute(
+                    "INSERT INTO customers (name, id_num, address, mobile_phone) VALUES (%s, %s, %s, %s) RETURNING *",
+                    (data[0],
+                     data[1],
+                     data[
+                         2], data[3]))
                 customer_row_that_was_just_inserted = cur.fetchone()
                 print(f"Data inserted is {customer_row_that_was_just_inserted}")
                 print(type(customer_row_that_was_just_inserted))
@@ -32,6 +34,7 @@ class CustomerDao:
                 return {"Data successfully inserted": {
                     "s_num": customer_row_that_was_just_inserted[0],
                     "name": customer_row_that_was_just_inserted[1],
-                    "address": customer_row_that_was_just_inserted[2],
-                    "mobile_phone": customer_row_that_was_just_inserted[3]
+                    "id_num": customer_row_that_was_just_inserted[2],
+                    "address": customer_row_that_was_just_inserted[3],
+                    "mobile_phone": customer_row_that_was_just_inserted[4]
                 }}

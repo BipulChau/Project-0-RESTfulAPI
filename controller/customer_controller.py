@@ -17,7 +17,7 @@ def get_home_page():
 def get_all_customers():
     if flask.request.method == "POST":
         data = request.get_json()
-        print(data)
+        print(f"Data at controller layer: {data}")
         print(type(data))
         return CustomerService.add_customer(data)
     else:
