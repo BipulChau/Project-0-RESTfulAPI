@@ -77,3 +77,31 @@ class CustomerDao:
                 else:
                     conn.commit()
                     return True
+
+    @staticmethod
+    def update_customer_by_id(id_num, data):
+        with psycopg.connect(host="127.0.0.1", port="5432", dbname="postgres", user="postgres",
+                             password="postgres") as conn:
+            # Automatically close the cursor
+            with conn.cursor() as cur:
+                cur.execute(
+                    "UPDATE customers SET name = %s, id_num = %s, address = %s, mobile_phone = %s WHERE id_num = %s RETURNING *",
+                    (data["name"], data["id_num"], data["address"], data["mobile_phone"], id_num))
+
+                conn.commit()
+                updated_customer_row = cur.fetchone()
+
+                print(updated_customer_row)
+                print(f" Data type of fetchone at DAO {type(updated_customer_row)}")
+                if not updated_customer_row:
+                    return None
+
+                return {
+                    f"Information of customer with id number {id_num} is updated as": {"name": updated_customer_row[1],
+                                                                                       "id_num": updated_customer_row[
+                                                                                           2],
+                                                                                       "address": updated_customer_row[
+                                                                                           3],
+                                                                                       "mobile_phone":
+                                                                                           updated_customer_row[4]
+                                                                                       }}

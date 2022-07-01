@@ -50,6 +50,14 @@ class CustomerService:
 
         return f"Customer with id number {id_num} successfully deleted"
 
+    @staticmethod
+    def update_customer_by_id(id_num, data):
+        updated_info = CustomerDao.update_customer_by_id(id_num, data)
+        if not updated_info:
+            raise UserNotFoundError(f"Customer with id {id_num} was not found")
+
+        return updated_info
+
 
 if __name__ == "__main__":
     CustomerService.get_all_customers()
