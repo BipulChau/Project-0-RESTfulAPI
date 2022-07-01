@@ -26,10 +26,11 @@ def get_all_customers():
         }
 
 
-@cc.route("/customers/<id_num>")
+@cc.route("/customers/<id_num>",
+          methods=["GET", "PUT", "DELETE"])  # Get customer with an id of X (if the customer exists)
 def get_customer_by_id(id_num):
     print(f"Searching details of customer {id_num} at controller layer")
-    return CustomerDao.get_customer_by_id(id_num)
+    return CustomerService.get_customer_by_id(id_num)
 
 # app = Flask
 # app = Flask(__name__)

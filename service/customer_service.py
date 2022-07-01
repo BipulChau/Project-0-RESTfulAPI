@@ -31,8 +31,8 @@ class CustomerService:
         return CustomerDao.add_customer(customer_data)
 
     @staticmethod
-    def get_customer_by_name(data):
-        return "add_customer_by_name at customer_service layer"
+    def get_customer_by_id(id_num):
+        return CustomerDao.get_customer_by_id(id_num)
 
 
 if __name__ == "__main__":
