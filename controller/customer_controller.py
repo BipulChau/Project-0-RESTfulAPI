@@ -2,6 +2,7 @@ import flask
 from flask import Blueprint, request
 from dao.customer_dao import CustomerDao
 from service.customer_service import CustomerService
+from exception.user_not_found import UserNotFoundError
 
 cc = Blueprint("customer_controller", __name__)
 
@@ -29,8 +30,12 @@ def get_all_customers():
 @cc.route("/customers/<id_num>",
           methods=["GET", "PUT", "DELETE"])  # Get customer with an id of X (if the customer exists)
 def get_customer_by_id(id_num):
-    print(f"Searching details of customer {id_num} at controller layer")
-    return CustomerService.get_customer_by_id(id_num)
+    try:
+        return CustomerService.get_customer_by_id(id_num)
+    except UserNotFoundError as e:
+        return{
+            "message": str(e)
+        }, 404
 
 # app = Flask
 # app = Flask(__name__)

@@ -2,7 +2,6 @@ import psycopg
 from model.customer import Customer
 
 
-
 class CustomerDao:
     @staticmethod
     def get_all_customers():
@@ -60,4 +59,5 @@ class CustomerDao:
                         "address": got_customer_tuple[3],
                         "mobile_phone": got_customer_tuple[4]
                     }}
-                return f"Customer with id number {id_num} does not exist!!"
+                # return f"Customer with id number {id_num} does not exist!!"
+                return None

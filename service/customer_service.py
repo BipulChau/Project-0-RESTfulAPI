@@ -1,6 +1,7 @@
 from dao.customer_dao import CustomerDao
 from model.customer import Customer
 from dao.customer_dao import CustomerDao
+from exception.user_not_found import UserNotFoundError
 
 
 class CustomerService:
@@ -21,7 +22,6 @@ class CustomerService:
 
     @staticmethod
     def add_customer(data):
-
         name = data["name"]
         id_num = data["id_num"]
         address = data["address"]
@@ -32,7 +32,13 @@ class CustomerService:
 
     @staticmethod
     def get_customer_by_id(id_num):
-        return CustomerDao.get_customer_by_id(id_num)
+        customer_by_id = CustomerDao.get_customer_by_id(id_num)
+
+        if not customer_by_id:
+            # return f"At service layer: Customer with id number {id_num} does not exist!!"
+            raise UserNotFoundError(f"User with id {id_num} was not found")
+
+        return customer_by_id
 
 
 if __name__ == "__main__":
