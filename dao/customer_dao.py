@@ -2,6 +2,7 @@ import psycopg
 from model.customer import Customer
 
 
+
 class CustomerDao:
     @staticmethod
     def get_all_customers():
