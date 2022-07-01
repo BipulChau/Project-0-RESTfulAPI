@@ -24,6 +24,13 @@ def get_all_customers():
         return {
             "customers": CustomerService.get_all_customers()
         }
+
+
+@cc.route("/customers/<name>")
+def get_customer_by_name(name):
+    print(f"Searching details of customer {name} at controller layer")
+    return CustomerDao.get_customer_by_name(name)
+
 # app = Flask
 # app = Flask(__name__)
 #

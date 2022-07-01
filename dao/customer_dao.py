@@ -38,3 +38,25 @@ class CustomerDao:
                     "address": customer_row_that_was_just_inserted[3],
                     "mobile_phone": customer_row_that_was_just_inserted[4]
                 }}
+
+    @staticmethod
+    def get_customer_by_name(name):
+        print(f"get_customer_by_name at DAO Layer")
+        with psycopg.connect(host="127.0.0.1", port="5432", dbname="postgres", user="postgres",
+                             password="postgres") as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "SELECT * FROM customers WHERE name=%s", (name,)
+                )
+                got_customer = cur.fetchall()
+                print(got_customer)
+                print(type(got_customer))
+                if got_customer:
+                    got_customer_tuple = got_customer[0]
+                    return {f"{name}": {
+                        "s_num": got_customer_tuple[0],
+                        "id_num": got_customer_tuple[2],
+                        "address": got_customer_tuple[3],
+                        "mobile_phone": got_customer_tuple[4]
+                    }}
+                return f"{name}: Not Found!!!"

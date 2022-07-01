@@ -30,5 +30,10 @@ class CustomerService:
         print(f"Customer details at Service layer: {customer_data}")
         return CustomerDao.add_customer(customer_data)
 
+    @staticmethod
+    def get_customer_by_name(data):
+        return "add_customer_by_name at customer_service layer"
 
-CustomerService.get_all_customers()
+
+if __name__ == "__main__":
+    CustomerService.get_all_customers()
