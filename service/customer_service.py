@@ -36,9 +36,19 @@ class CustomerService:
 
         if not customer_by_id:
             # return f"At service layer: Customer with id number {id_num} does not exist!!"
-            raise UserNotFoundError(f"User with id {id_num} was not found")
+            raise UserNotFoundError(f"Customer with id {id_num} was not found")
 
         return customer_by_id
+
+    @staticmethod
+    def delete_customer_by_id(id_num):
+        customer_by_id = CustomerDao.delete_customer_by_id(id_num)
+
+        if not customer_by_id:
+            # return f"At service layer: Customer with id number {id_num} does not exist!!"
+            raise UserNotFoundError(f"Customer with id {id_num} was not found")
+
+        return f"Customer with id number {id_num} successfully deleted"
 
 
 if __name__ == "__main__":

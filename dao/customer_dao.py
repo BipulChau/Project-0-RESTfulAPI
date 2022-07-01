@@ -61,3 +61,19 @@ class CustomerDao:
                     }}
                 # return f"Customer with id number {id_num} does not exist!!"
                 return None
+
+    @staticmethod
+    def delete_customer_by_id(id_num):
+        with psycopg.connect(host="127.0.0.1", port="5432", dbname="postgres", user="postgres",
+                             password="postgres") as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "DELETE FROM customers WHERE id_num=%s", (id_num,)
+                )
+                rows_deleted = cur.rowcount
+
+                if not rows_deleted:
+                    return False
+                else:
+                    conn.commit()
+                    return True

@@ -28,14 +28,22 @@ def get_all_customers():
 
 
 @cc.route("/customers/<id_num>",
-          methods=["GET", "PUT", "DELETE"])  # Get customer with an id of X (if the customer exists)
+          methods=["GET", "DELETE"])  # Get customer with an id of X (if the customer exists)
 def get_customer_by_id(id_num):
-    try:
-        return CustomerService.get_customer_by_id(id_num)
-    except UserNotFoundError as e:
-        return{
-            "message": str(e)
-        }, 404
+    if flask.request.method == "GET":
+        try:
+            return CustomerService.get_customer_by_id(id_num)
+        except UserNotFoundError as e:
+            return {
+                       "message": str(e)
+                   }, 404
+    else:
+        try:
+            return CustomerService.delete_customer_by_id(id_num)
+        except UserNotFoundError as e:
+            return {
+                       "message": str(e)
+                   }, 404
 
 # app = Flask
 # app = Flask(__name__)
