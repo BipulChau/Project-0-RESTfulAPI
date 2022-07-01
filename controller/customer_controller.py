@@ -26,10 +26,15 @@ def get_all_customers():
         }
 
 
-@cc.route("/customers/<id_num>")
+@cc.route("/customers/<id_num>", methods=["GET", "PUT", "DELETE"])
 def get_customer_by_id(id_num):
-    print(f"Searching details of customer {id_num} at controller layer")
-    return CustomerDao.get_customer_by_id(id_num)
+    if flask.request.method == "GET":
+        print(f"Searching details of customer {id_num} at controller layer")
+        return CustomerDao.get_customer_by_id(id_num)
+    elif flask.request.method == "PUT":
+        return "PUT at DAO"
+    else:
+        return "DELETE at DAO"
 
 # app = Flask
 # app = Flask(__name__)
