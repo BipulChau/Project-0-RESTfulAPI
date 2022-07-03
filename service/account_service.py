@@ -27,11 +27,17 @@ class AccountService:
 
     @staticmethod
     def add_customer_account(customer_id_num, data):
-        account_just_created = AccountDao.add_customer_account(customer_id_num, data)
-        return{
-            f"Account opened for the customer with an id of {customer_id_num}": {
-                "account_num": account_just_created[0],
-                "account_type_id": account_just_created[2],
-                "balance": account_just_created[3]
-            }
-        }
+        try:
+            account_just_created = AccountDao.add_customer_account(customer_id_num, data)
+            if account_just_created:
+                return {
+                    f"Account opened for the customer with an id of {customer_id_num}": {
+                        "account_num": account_just_created[0],
+                        "account_type_id": account_just_created[2],
+                        "balance": account_just_created[3]
+                    }
+                }
+        except UserNotFoundError as e:
+            return {
+                       "message": str(e)
+                   }, 404
