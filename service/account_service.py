@@ -36,14 +36,12 @@ class AccountService:
         amount_less_than = query_params.get("amountLessThan")
         amount_greater_than = query_params.get("amountGreaterThan")
         if amount_less_than and not amount_greater_than:  # if query parameter has only one key as amountLessThan
-            all_accounts_of_customer = AccountDao.get_customer_account_with_query_params_amount_less_than(customer_id_num, amount_less_than)
+            all_accounts_of_customer = AccountDao.get_customer_account_with_query_params_amount_less_than(
+                customer_id_num, amount_less_than)
             return AccountUtility.get_and_format_customer_account(customer_id_num, all_accounts_of_customer)
-            # return{
-            #     "less than balance": all_accounts_of_customer
-            # }
-
-        elif amount_greater_than and not amount_less_than:
-            return f"Query Params enquiry only has Greater than"
+        elif amount_greater_than and not amount_less_than:  # if query parameter has only one key as amountGreaterThan
+            all_accounts_of_customer = AccountDao.get_customer_account_with_query_params_amount_greater_than(customer_id_num, amount_greater_than)
+            return AccountUtility.get_and_format_customer_account(customer_id_num, all_accounts_of_customer)
         if amount_greater_than < amount_less_than:
             return "Greater is lesser than less than"
 
