@@ -26,6 +26,7 @@ class AccountDao:
     @staticmethod
     def get_customer_account_with_query_params_amount_less_than(customer_id_num,
                                                                 amount_less_than):  # When query parameter is amountLessThan
+        print(type(amount_less_than))
         with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
                              password="postgres") as conn:
             with conn.cursor() as cur:
