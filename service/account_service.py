@@ -37,18 +37,20 @@ class AccountService:
 
     @staticmethod
     def get_customer_account_with_query_params(customer_id_num, query_params):
-        amount_less_than = query_params.get("amountLessThan")
-        amount_greater_than = query_params.get("amountGreaterThan")
+        amount_less_than = int(query_params.get("amountLessThan"))
+        amount_greater_than = int(query_params.get("amountGreaterThan"))
         if amount_less_than and not amount_greater_than:  # if query parameter has only one key as amountLessThan
             all_accounts_of_customer = AccountDao.get_customer_account_with_query_params_amount_less_than(
                 customer_id_num, amount_less_than)
             if all_accounts_of_customer:
                 return AccountUtility.get_and_format_customer_account(customer_id_num, all_accounts_of_customer)
             raise AccountNotFoundError(f"Accounts with balance less than {amount_less_than} not found for the customer having an id number {customer_id_num}")
-
         elif amount_greater_than and not amount_less_than:  # if query parameter has only one key as amountGreaterThan
             all_accounts_of_customer = AccountDao.get_customer_account_with_query_params_amount_greater_than(customer_id_num, amount_greater_than)
-            return AccountUtility.get_and_format_customer_account(customer_id_num, all_accounts_of_customer)
+            if all_accounts_of_customer:
+                return AccountUtility.get_and_format_customer_account(customer_id_num, all_accounts_of_customer)
+            raise AccountNotFoundError(
+                f"Accounts with balance less than {amount_greater_than} not found for the customer having an id number {customer_id_num}")
 
         if amount_greater_than < amount_less_than:  # if there are both amountGreaterThan and amountLessThan params and amount_greater_than < amount_less_than
             all_accounts_of_customer = AccountDao.get_customer_account_with_query_params_amount_in_between(customer_id_num, amount_greater_than, amount_less_than)
