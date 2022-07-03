@@ -7,7 +7,7 @@ class Account:
 
     def to_dict(self):
         return {
-            "s_num": self.account_num_num,
+            "account_num": self.account_num,
             "customer_id_num": self.customer_id_num,
             "account_type_id": self.account_type_id,
             "balance": self.balance

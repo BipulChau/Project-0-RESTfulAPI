@@ -16,12 +16,23 @@ class AccountDao:
         with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
                              password="postgres") as conn:
             with conn.cursor() as cur:
-                cur.execute("SELECT account_num, name, id_num,  account_type_id, balance FROM customers left join accounts on id_num = customer_id_num  where id_num=%s", (customer_id_num,))
+                cur.execute(
+                    "SELECT account_num, name, id_num,  account_type_id, balance FROM customers left join accounts on id_num = customer_id_num  where id_num=%s",
+                    (customer_id_num,))
                 got_customer = tuple(cur.fetchall())
                 print(got_customer)
                 print(type(got_customer))
                 return got_customer
 
-
-
-
+    @staticmethod
+    def add_customer_account(customer_id_num, data):
+        with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
+                             password="postgres") as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "INSERT INTO accounts(customer_id_num, balance, account_type_id) VALUES (%s, %s, %s) RETURNING *",
+                    (customer_id_num, data["balance"], data["account_type_id"]))
+                account_just_created = cur.fetchone()
+                print(account_just_created)
+                print(type(account_just_created))
+        return account_just_created
