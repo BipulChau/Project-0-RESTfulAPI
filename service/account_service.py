@@ -1,6 +1,7 @@
 from dao.Account_dao import AccountDao
 from model.account import Account
 from exception.user_not_found import UserNotFoundError
+from utility.account_utility import AccountUtility
 
 
 class AccountService:
@@ -20,10 +21,31 @@ class AccountService:
     @staticmethod
     def get_customer_account(customer_id_num):
         all_accounts_of_customer = AccountDao.get_customer_account(customer_id_num)
-        if all_accounts_of_customer:
-            all_accounts_of_customer_formatted = tuple(map(lambda i: {"account_num": i[0], "account_type_id": i[3], "balance": i[4]}, all_accounts_of_customer))
-            return {f"Accounts of {all_accounts_of_customer[0][1]} having id number {customer_id_num}": all_accounts_of_customer_formatted}
-        raise UserNotFoundError(f"Accounts of Customer with id {customer_id_num} not found !!!")
+        return AccountUtility.get_and_format_customer_account(customer_id_num, all_accounts_of_customer)
+
+        # if all_accounts_of_customer:
+        #     all_accounts_of_customer_formatted = tuple(
+        #         map(lambda i: {"account_num": i[0], "account_type_id": i[3], "balance": i[4]},
+        #             all_accounts_of_customer))
+        #     return {
+        #         f"Accounts of {all_accounts_of_customer[0][1]} having id number {customer_id_num}": all_accounts_of_customer_formatted}
+        # raise UserNotFoundError(f"Accounts of Customer with id {customer_id_num} not found !!!")
+
+    @staticmethod
+    def get_customer_account_with_query_params(customer_id_num, query_params):
+        amount_less_than = query_params.get("amountLessThan")
+        amount_greater_than = query_params.get("amountGreaterThan")
+        if amount_less_than and not amount_greater_than:  # if query parameter has only one key as amountLessThan
+            all_accounts_of_customer = AccountDao.get_customer_account_with_query_params_amount_less_than(customer_id_num, amount_less_than)
+            return AccountUtility.get_and_format_customer_account(customer_id_num, all_accounts_of_customer)
+            # return{
+            #     "less than balance": all_accounts_of_customer
+            # }
+
+        elif amount_greater_than and not amount_less_than:
+            return f"Query Params enquiry only has Greater than"
+        if amount_greater_than < amount_less_than:
+            return "Greater is lesser than less than"
 
     @staticmethod
     def add_customer_account(customer_id_num, data):

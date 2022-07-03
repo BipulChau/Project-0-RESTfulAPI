@@ -49,8 +49,6 @@ class CustomerDao:
                     "SELECT * FROM customers WHERE id_num=%s", (id_num,)
                 )
                 got_customer = cur.fetchall()
-                print(got_customer)
-                print(type(got_customer))
                 if got_customer:
                     got_customer_tuple = got_customer[0]
                     return {f"{id_num}": {
