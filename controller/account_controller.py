@@ -2,6 +2,7 @@ import flask
 from flask import Blueprint, request
 from service.account_service import AccountService
 from exception.user_not_found import UserNotFoundError
+from exception.account_not_found import AccountNotFoundError
 
 ac = Blueprint("account_controller", __name__)
 
@@ -24,7 +25,7 @@ def get_customer_account(customer_id_num):
                        }, 404
         try:
             return AccountService.get_customer_account_with_query_params(customer_id_num, query_param)  # when query params is truthy
-        except UserNotFoundError as e:
+        except AccountNotFoundError as e:
             return {
                 "message": str(e)
             }, 404

@@ -1,6 +1,7 @@
 from dao.Account_dao import AccountDao
 from model.account import Account
 from exception.user_not_found import UserNotFoundError
+from exception.account_not_found import AccountNotFoundError
 from utility.account_utility import AccountUtility
 
 
@@ -21,7 +22,10 @@ class AccountService:
     @staticmethod
     def get_customer_account(customer_id_num):
         all_accounts_of_customer = AccountDao.get_customer_account(customer_id_num)
-        return AccountUtility.get_and_format_customer_account(customer_id_num, all_accounts_of_customer)
+        if all_accounts_of_customer:
+            return AccountUtility.get_and_format_customer_account(customer_id_num, all_accounts_of_customer)
+
+        raise UserNotFoundError(f"Accounts of Customer with id {customer_id_num} not found !!!")
 
         # if all_accounts_of_customer:
         #     all_accounts_of_customer_formatted = tuple(
@@ -38,7 +42,9 @@ class AccountService:
         if amount_less_than and not amount_greater_than:  # if query parameter has only one key as amountLessThan
             all_accounts_of_customer = AccountDao.get_customer_account_with_query_params_amount_less_than(
                 customer_id_num, amount_less_than)
-            return AccountUtility.get_and_format_customer_account(customer_id_num, all_accounts_of_customer)
+            if all_accounts_of_customer:
+                return AccountUtility.get_and_format_customer_account(customer_id_num, all_accounts_of_customer)
+            raise AccountNotFoundError(f"Accounts with balance less than {amount_less_than} not found for the customer having an id number {customer_id_num}")
         elif amount_greater_than and not amount_less_than:  # if query parameter has only one key as amountGreaterThan
             all_accounts_of_customer = AccountDao.get_customer_account_with_query_params_amount_greater_than(customer_id_num, amount_greater_than)
             return AccountUtility.get_and_format_customer_account(customer_id_num, all_accounts_of_customer)
