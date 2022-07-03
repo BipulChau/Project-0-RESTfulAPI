@@ -39,5 +39,5 @@ class AccountDao:
                     print(account_just_created)
                     print(type(account_just_created))
                     return account_just_created
-        raise UserNotFoundError(f"Account cannot be created for the customer with an id {customer_id_num}")
+        raise UserNotFoundError(f"Account cannot be created for the customer having an id of {customer_id_num} because it does not exist!!!")
 
