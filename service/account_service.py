@@ -57,7 +57,7 @@ class AccountService:
                 raise AccountNotFoundError(
                     f"Accounts with balance less than {amount_less_than}  and balance greater than {amount_greater_than} not found for the customer having an id number {customer_id_num}")
             else:
-                raise InvalidParameter(f"Invalid parameters: amountGreaterThan should be smaller than amountLessthan")
+                raise InvalidParameter(f"Invalid parameters: amountGreaterThan should be smaller than amountLessThan")
 
     @staticmethod
     def add_customer_account(customer_id_num, data):
@@ -84,5 +84,15 @@ class AccountService:
             return AccountUtility.get_and_format_customer_individual_account(customer_id_num, account_of_a_customer)
         raise UserNotFoundError(f"Account number {account_num} of Customer having id {customer_id_num} not found !!!")
 
+    @staticmethod
+    def update_account_of_customer(customer_id_num, account_num, data):
+        updated_account_info = AccountDao.update_account_of_customer(customer_id_num, account_num, data)
+        if not updated_account_info:
+            raise UserNotFoundError(f"Account number {account_num} of the customer having id number {customer_id_num} cannot be updated!!! Please check account num or the customer id num ")
 
-
+        return {f"Account number {account_num} of the customer having id num {customer_id_num} is updated as": {
+            "account_num": updated_account_info[0],
+            "customer_id_num": updated_account_info[1],
+            "account_type_id": updated_account_info[2],
+            "balance": updated_account_info[3]
+        }}

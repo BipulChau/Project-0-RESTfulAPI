@@ -45,4 +45,12 @@ def get_account_of_a_customer_with_account_num(customer_id_num, account_num):
             return {
                        "message": str(e)
                    }, 404
+    elif flask.request.method == "PUT":  # Update account with id of Y belonging to customer with id of X (if customer and account exist AND if account belongs to customer)
+        data = request.get_json()
+        try:
+            return AccountService.update_account_of_customer(customer_id_num, account_num, data)
+        except UserNotFoundError as e:
+            return {
+                "message": str(e)
+            }, 404
 

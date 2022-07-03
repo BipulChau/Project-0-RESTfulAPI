@@ -89,3 +89,16 @@ class AccountDao:
                 got_customer = tuple(cur.fetchall())
                 print(got_customer)
                 return got_customer
+
+    @staticmethod
+    def update_account_of_customer(customer_id_num, account_num, data):
+        with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres", password="postgres") as conn:
+            with conn.cursor() as cur:
+                cur.execute("UPDATE accounts SET balance=%s WHERE customer_id_num =%s and account_num=%s RETURNING *", (data["balance"], customer_id_num, account_num))
+                updated_customer_row = cur.fetchone()
+
+                if not updated_customer_row:
+                    return None
+
+                return updated_customer_row
+
