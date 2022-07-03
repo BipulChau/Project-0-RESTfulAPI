@@ -77,3 +77,15 @@ class AccountDao:
                     return account_just_created
         raise UserNotFoundError(
             f"Account cannot be created for the customer having an id of {customer_id_num} because it does not exist!!!")
+
+    @staticmethod
+    def get_account_of_a_customer_with_account_num(customer_id_num, account_num):
+        with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
+                             password="postgres") as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "SELECT account_num, name, id_num,  account_type_id, balance FROM customers join accounts on id_num = customer_id_num  where id_num=%s and account_num=%s",
+                    (customer_id_num, account_num))
+                got_customer = tuple(cur.fetchall())
+                print(got_customer)
+                return got_customer
