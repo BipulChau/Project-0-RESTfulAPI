@@ -51,6 +51,12 @@ def get_account_of_a_customer_with_account_num(customer_id_num, account_num):
             return AccountService.update_account_of_customer(customer_id_num, account_num, data)
         except UserNotFoundError as e:
             return {
+                       "message": str(e)
+                   }, 404
+    else:  # Delete account with id of Y belonging to customer with id of X (if customer and account exist AND if account belongs to customer)
+        try:
+            return AccountService.delete_account_of_customer(customer_id_num, account_num)
+        except UserNotFoundError as e:
+            return {
                 "message": str(e)
-            }, 404
-
+            }

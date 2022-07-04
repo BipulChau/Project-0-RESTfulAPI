@@ -102,3 +102,16 @@ class AccountDao:
 
                 return updated_customer_row
 
+    @staticmethod
+    def delete_account_of_customer(customer_id_num, account_num):
+        with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres", password="postgres") as conn:
+            with conn.cursor() as cur:
+                cur.execute("DELETE FROM accounts where customer_id_num=%s and account_num=%s", (customer_id_num, account_num))
+                rows_deleted = cur.rowcount
+                if not rows_deleted:
+                    return False
+                else:
+                    conn.commit()
+                    return True
+
+

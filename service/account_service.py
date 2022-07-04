@@ -96,3 +96,12 @@ class AccountService:
             "account_type_id": updated_account_info[2],
             "balance": updated_account_info[3]
         }}
+
+    @staticmethod
+    def delete_account_of_customer(customer_id_num, account_num):
+        is_account_deleted = AccountDao.delete_account_of_customer(customer_id_num, account_num)
+        if not is_account_deleted:
+            raise UserNotFoundError(f"Account number {account_num} of the customer having id number {customer_id_num} cannot be deleted!!! Please check account num or the customer id num ")
+
+        return f"Account number {account_num} of the customer having id number {customer_id_num} successfully deleted"
+
