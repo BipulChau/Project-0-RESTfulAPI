@@ -7,7 +7,7 @@ from exception.user_not_found import UserNotFoundError
 class CustomerService:
     @staticmethod
     def get_all_customers():
-        customers_all_list = CustomerDao().get_all_customers()
+        customers_all_list = CustomerDao.get_all_customers()
         customers_all_list_formatted = []
         for i in customers_all_list:
             s_num = i[0]
@@ -17,7 +17,7 @@ class CustomerService:
             mobile_phone = i[4]
             customer_obj = Customer(s_num, name, id_num, address, mobile_phone)
             customers_all_list_formatted.append(customer_obj.to_dict())
-
+        print(customers_all_list_formatted)
         return customers_all_list_formatted
 
     @staticmethod
