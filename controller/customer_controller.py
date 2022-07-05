@@ -3,6 +3,7 @@ from flask import Blueprint, request
 from dao.customer_dao import CustomerDao
 from service.customer_service import CustomerService
 from exception.user_not_found import UserNotFoundError
+from exception.customer_already_exist import CustomerAlreadyExistError
 
 cc = Blueprint("customer_controller", __name__)
 
@@ -21,6 +22,7 @@ def get_all_customers():
         print(f"Data at controller layer: {data}")
         print(type(data))
         return CustomerService.add_customer(data)
+
     else:
         return {
             "customers": CustomerService.get_all_customers()

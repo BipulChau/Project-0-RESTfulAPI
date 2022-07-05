@@ -1,0 +1,2 @@
+class CustomerAlreadyExistError(Exception):
+    pass

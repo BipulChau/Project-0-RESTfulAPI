@@ -64,3 +64,8 @@ def test_get_customer_by_id_negative(mocker):
     # Assert
     with pytest.raises(UserNotFoundError) as e:
         actual = CustomerService.get_customer_by_id("DOGGIE999")
+
+# def test_add_customer(mocker):
+#     # Arrange
+#     def mock_add_customer(data):
+

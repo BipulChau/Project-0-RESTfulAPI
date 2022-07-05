@@ -2,6 +2,7 @@ from dao.customer_dao import CustomerDao
 from model.customer import Customer
 from dao.customer_dao import CustomerDao
 from exception.user_not_found import UserNotFoundError
+from exception.customer_already_exist import CustomerAlreadyExistError
 
 
 class CustomerService:
@@ -22,13 +23,32 @@ class CustomerService:
 
     @staticmethod
     def add_customer(data):
-        name = data["name"]
-        id_num = data["id_num"]
-        address = data["address"]
-        mobile_phone = data["mobile_phone"]
-        customer_data = (name, id_num, address, mobile_phone)
-        print(f"Customer details at Service layer: {customer_data}")
-        return CustomerDao.add_customer(customer_data)
+        try:
+            print(data)
+            name = data["name"]
+            id_num = data["id_num"]
+            address = data["address"]
+            mobile_phone = data["mobile_phone"]
+            customer_data = (name, id_num, address, mobile_phone)
+            print(f"Customer details at Service layer: {customer_data}")
+            customer_row_that_was_just_inserted = CustomerDao.add_customer(customer_data)
+            if customer_row_that_was_just_inserted:
+                print({"Data successfully inserted": {
+                    "s_num": customer_row_that_was_just_inserted[0],
+                    "name": customer_row_that_was_just_inserted[1],
+                    "id_num": customer_row_that_was_just_inserted[2],
+                    "address": customer_row_that_was_just_inserted[3],
+                    "mobile_phone": customer_row_that_was_just_inserted[4]
+                }})
+                return {"Data successfully inserted": {
+                    "s_num": customer_row_that_was_just_inserted[0],
+                    "name": customer_row_that_was_just_inserted[1],
+                    "id_num": customer_row_that_was_just_inserted[2],
+                    "address": customer_row_that_was_just_inserted[3],
+                    "mobile_phone": customer_row_that_was_just_inserted[4]
+                }}
+        except CustomerAlreadyExistError as e:
+            return {"message": str(e)}
 
     @staticmethod
     def get_customer_by_id(id_num):
@@ -38,17 +58,17 @@ class CustomerService:
             # return f"At service layer: Customer with id number {id_num} does not exist!!"
             raise UserNotFoundError(f"Customer with id {id_num} was not found")
         print({f"{id_num}": {
-                        "s_num": customer_by_id[0],
-                        "name": customer_by_id[1],
-                        "address": customer_by_id[3],
-                        "mobile_phone": customer_by_id[4]
-                    }})
+            "s_num": customer_by_id[0],
+            "name": customer_by_id[1],
+            "address": customer_by_id[3],
+            "mobile_phone": customer_by_id[4]
+        }})
         return {f"{id_num}": {
-                        "s_num": customer_by_id[0],
-                        "name": customer_by_id[1],
-                        "address": customer_by_id[3],
-                        "mobile_phone": customer_by_id[4]
-                    }}
+            "s_num": customer_by_id[0],
+            "name": customer_by_id[1],
+            "address": customer_by_id[3],
+            "mobile_phone": customer_by_id[4]
+        }}
 
     @staticmethod
     def delete_customer_by_id(id_num):
