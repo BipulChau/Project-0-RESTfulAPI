@@ -33,12 +33,22 @@ class CustomerService:
     @staticmethod
     def get_customer_by_id(id_num):
         customer_by_id = CustomerDao.get_customer_by_id(id_num)
-
+        print(customer_by_id)
         if not customer_by_id:
             # return f"At service layer: Customer with id number {id_num} does not exist!!"
             raise UserNotFoundError(f"Customer with id {id_num} was not found")
-
-        return customer_by_id
+        print({f"{id_num}": {
+                        "s_num": customer_by_id[0],
+                        "name": customer_by_id[1],
+                        "address": customer_by_id[3],
+                        "mobile_phone": customer_by_id[4]
+                    }})
+        return {f"{id_num}": {
+                        "s_num": customer_by_id[0],
+                        "name": customer_by_id[1],
+                        "address": customer_by_id[3],
+                        "mobile_phone": customer_by_id[4]
+                    }}
 
     @staticmethod
     def delete_customer_by_id(id_num):

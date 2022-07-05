@@ -49,15 +49,9 @@ class CustomerDao:
                     "SELECT * FROM customers WHERE id_num=%s", (id_num,)
                 )
                 got_customer = cur.fetchall()
+                print(f"get_customer_by_id at DAO layer: {got_customer[0]}")
                 if got_customer:
-                    got_customer_tuple = got_customer[0]
-                    return {f"{id_num}": {
-                        "s_num": got_customer_tuple[0],
-                        "name": got_customer_tuple[1],
-                        "address": got_customer_tuple[3],
-                        "mobile_phone": got_customer_tuple[4]
-                    }}
-                # return f"Customer with id number {id_num} does not exist!!"
+                    return got_customer[0]
                 return None
 
     @staticmethod
