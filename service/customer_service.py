@@ -48,7 +48,7 @@ class CustomerService:
                     "mobile_phone": customer_row_that_was_just_inserted[4]
                 }}
         except CustomerAlreadyExistError as e:
-            return {"message": str(e)}
+            return {"message": str(e)}, 400
 
     @staticmethod
     def get_customer_by_id(id_num):
@@ -89,5 +89,4 @@ class CustomerService:
         return updated_info
 
 
-if __name__ == "__main__":
-    CustomerService.get_all_customers()
+

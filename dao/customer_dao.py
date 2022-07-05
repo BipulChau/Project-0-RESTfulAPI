@@ -2,7 +2,6 @@ import psycopg
 from exception.customer_already_exist import CustomerAlreadyExistError
 
 
-
 class CustomerDao:
     @staticmethod
     def get_all_customers():
