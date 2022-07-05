@@ -49,7 +49,7 @@ class CustomerDao:
                     "SELECT * FROM customers WHERE id_num=%s", (id_num,)
                 )
                 got_customer = cur.fetchall()
-                print(f"get_customer_by_id at DAO layer: {got_customer[0]}")
+                print(f"get_customer_by_id at DAO layer: {got_customer}")
                 if got_customer:
                     return got_customer[0]
                 return None

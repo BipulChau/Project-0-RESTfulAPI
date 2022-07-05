@@ -1,4 +1,6 @@
+import pytest
 from service.customer_service import CustomerService
+from exception.user_not_found import UserNotFoundError
 
 
 def test_get_all_customers(mocker):
@@ -13,7 +15,6 @@ def test_get_all_customers(mocker):
                 (11, 'Madhu Chaudhary', 'MADY24', 'Toronto, CA', '612-561-8977')]
 
     mocker.patch("dao.customer_dao.CustomerDao.get_all_customers", mock_get_all_customers)
-    # customer_service = CustomerService()
 
     # Act
     actual = CustomerService.get_all_customers()
@@ -37,11 +38,29 @@ def test_get_all_customers(mocker):
 
 def test_get_customer_by_id_positive(mocker):
     # Arrange
-    def mock_test_get_customer_by_id(id_num):
+    def mock_get_customer_by_id(id_num):
         if id_num == "AUM21":
             return 4, 'Rimsha Chaudhary', 'AUM21', 'Calgary, CA', '647-845-0003'
-
+        else:
+            return None
+    mocker.patch('dao.customer_dao.CustomerDao.get_customer_by_id', mock_get_customer_by_id)
     # Act
     actual = CustomerService.get_customer_by_id("AUM21")
     # Assert
     assert actual == {'AUM21': {'s_num': 4, 'name': 'Rimsha Chaudhary', 'address': 'Calgary, CA', 'mobile_phone': '647-845-0003'}}
+
+
+def test_get_customer_by_id_negative(mocker):
+    # Arrange
+    def mock_test_get_customer_by_id(id_num):
+        if id_num == "AUM21":
+            return 4, 'Rimsha Chaudhary', 'AUM21', 'Calgary, CA', '647-845-0003'
+        else:
+            return None
+
+    mocker.patch('dao.customer_dao.CustomerDao.get_customer_by_id', mock_test_get_customer_by_id)
+    # Act
+
+    # Assert
+    with pytest.raises(UserNotFoundError) as e:
+        actual = CustomerService.get_customer_by_id("DOGGIE999")
