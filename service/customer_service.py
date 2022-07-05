@@ -32,14 +32,15 @@ class CustomerService:
             customer_data = (name, id_num, address, mobile_phone)
             print(f"Customer details at Service layer: {customer_data}")
             customer_row_that_was_just_inserted = CustomerDao.add_customer(customer_data)
+            print (f"at service layer {customer_row_that_was_just_inserted}")
             if customer_row_that_was_just_inserted:
-                print({"Data successfully inserted": {
-                    "s_num": customer_row_that_was_just_inserted[0],
-                    "name": customer_row_that_was_just_inserted[1],
-                    "id_num": customer_row_that_was_just_inserted[2],
-                    "address": customer_row_that_was_just_inserted[3],
-                    "mobile_phone": customer_row_that_was_just_inserted[4]
-                }})
+                # print({"Data successfully inserted": {
+                #     "s_num": customer_row_that_was_just_inserted[0],
+                #     "name": customer_row_that_was_just_inserted[1],
+                #     "id_num": customer_row_that_was_just_inserted[2],
+                #     "address": customer_row_that_was_just_inserted[3],
+                #     "mobile_phone": customer_row_that_was_just_inserted[4]
+                # }})
                 return {"Data successfully inserted": {
                     "s_num": customer_row_that_was_just_inserted[0],
                     "name": customer_row_that_was_just_inserted[1],

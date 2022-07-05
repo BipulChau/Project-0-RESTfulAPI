@@ -43,11 +43,13 @@ def test_get_customer_by_id_positive(mocker):
             return 4, 'Rimsha Chaudhary', 'AUM21', 'Calgary, CA', '647-845-0003'
         else:
             return None
+
     mocker.patch('dao.customer_dao.CustomerDao.get_customer_by_id', mock_get_customer_by_id)
     # Act
     actual = CustomerService.get_customer_by_id("AUM21")
     # Assert
-    assert actual == {'AUM21': {'s_num': 4, 'name': 'Rimsha Chaudhary', 'address': 'Calgary, CA', 'mobile_phone': '647-845-0003'}}
+    assert actual == {
+        'AUM21': {'s_num': 4, 'name': 'Rimsha Chaudhary', 'address': 'Calgary, CA', 'mobile_phone': '647-845-0003'}}
 
 
 def test_get_customer_by_id_negative(mocker):
@@ -65,7 +67,22 @@ def test_get_customer_by_id_negative(mocker):
     with pytest.raises(UserNotFoundError) as e:
         actual = CustomerService.get_customer_by_id("DOGGIE999")
 
-# def test_add_customer(mocker):
-#     # Arrange
-#     def mock_add_customer(data):
+
+def test_add_customer_positive(mocker):
+    # Arrange
+    def mock_test_add_customer(customer_data):
+        if customer_data == ('Oggy Poggy', 'POGU108', 'Toronto, CA', '612-561-8977'):
+            return 39, 'Oggy Poggy', 'POGU108', 'Toronto, CA', '612-561-8977'
+        else:
+            return None
+
+    mocker.patch('dao.customer_dao.CustomerDao.add_customer', mock_test_add_customer)
+
+    # ACT
+    data1 = {'address': 'Toronto, CA', 'id_num': 'POGU108', 'mobile_phone': '612-561-8977', 'name': 'Oggy Poggy'}
+    actual = CustomerService.add_customer(data1)
+    print(f"actual is {actual}")
+
+    # Assert
+    assert actual == {'Data successfully inserted': {'s_num': 39, 'name': 'Oggy Poggy', 'id_num': 'POGU108', 'address': 'Toronto, CA', 'mobile_phone': '612-561-8977'}}
 
