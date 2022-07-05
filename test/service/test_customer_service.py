@@ -1,6 +1,7 @@
 import pytest
 from service.customer_service import CustomerService
 from exception.user_not_found import UserNotFoundError
+from exception.customer_already_exist import CustomerAlreadyExistError
 
 
 def test_get_all_customers(mocker):
@@ -84,5 +85,21 @@ def test_add_customer_positive(mocker):
     print(f"actual is {actual}")
 
     # Assert
-    assert actual == {'Data successfully inserted': {'s_num': 39, 'name': 'Oggy Poggy', 'id_num': 'POGU108', 'address': 'Toronto, CA', 'mobile_phone': '612-561-8977'}}
+    assert actual == {
+        'Data successfully inserted': {'s_num': 39, 'name': 'Oggy Poggy', 'id_num': 'POGU108', 'address': 'Toronto, CA',
+                                       'mobile_phone': '612-561-8977'}}
 
+
+def test_add_customer_negative(mocker):
+    # Arrange
+    def mock_test_add_customer(customer_data):
+        if customer_data == ('Oggy Poggy', 'POGU108', 'Toronto, CA', '612-561-8977'):
+        #     return 39, 'Oggy Poggy', 'POGU108', 'Toronto, CA', '612-561-8977'
+        # else:
+            raise CustomerAlreadyExistError(f"Customer already exists with id POGU108")
+
+    mocker.patch('dao.customer_dao.CustomerDao.add_customer', mock_test_add_customer)
+
+    with pytest.raises(CustomerAlreadyExistError) as e:
+        data1 = {'address': 'Toronto, CA', 'id_num': 'POGU108', 'mobile_phone': '612-561-8977', 'name': 'Oggy Poggy'}
+        actual = CustomerService.add_customer(data1)

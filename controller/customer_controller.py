@@ -21,7 +21,12 @@ def get_all_customers():
         data = request.get_json()
         print(f"Data at controller layer: {data}")
         print(type(data))
-        return CustomerService.add_customer(data)
+        try:
+            return CustomerService.add_customer(data)
+        except CustomerAlreadyExistError as e:
+            # raise CustomerAlreadyExistError(str(e))
+            print("Tappu")
+            return {"message": str(e)}, 400
 
     else:
         return {

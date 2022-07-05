@@ -1,3 +1,5 @@
+import logging
+
 from dao.customer_dao import CustomerDao
 from model.customer import Customer
 from dao.customer_dao import CustomerDao
@@ -23,24 +25,28 @@ class CustomerService:
 
     @staticmethod
     def add_customer(data):
+        name = data["name"]
+        id_num = data["id_num"]
+        address = data["address"]
+        mobile_phone = data["mobile_phone"]
         try:
             print(data)
-            name = data["name"]
-            id_num = data["id_num"]
-            address = data["address"]
-            mobile_phone = data["mobile_phone"]
+            # name = data["name"]
+            # id_num = data["id_num"]
+            # address = data["address"]
+            # mobile_phone = data["mobile_phone"]
             customer_data = (name, id_num, address, mobile_phone)
             print(f"Customer details at Service layer: {customer_data}")
             customer_row_that_was_just_inserted = CustomerDao.add_customer(customer_data)
-            print (f"at service layer {customer_row_that_was_just_inserted}")
+            print(f"at service layer {customer_row_that_was_just_inserted}")
             if customer_row_that_was_just_inserted:
-                # print({"Data successfully inserted": {
-                #     "s_num": customer_row_that_was_just_inserted[0],
-                #     "name": customer_row_that_was_just_inserted[1],
-                #     "id_num": customer_row_that_was_just_inserted[2],
-                #     "address": customer_row_that_was_just_inserted[3],
-                #     "mobile_phone": customer_row_that_was_just_inserted[4]
-                # }})
+                print({"Data successfully inserted": {
+                    "s_num": customer_row_that_was_just_inserted[0],
+                    "name": customer_row_that_was_just_inserted[1],
+                    "id_num": customer_row_that_was_just_inserted[2],
+                    "address": customer_row_that_was_just_inserted[3],
+                    "mobile_phone": customer_row_that_was_just_inserted[4]
+                }})
                 return {"Data successfully inserted": {
                     "s_num": customer_row_that_was_just_inserted[0],
                     "name": customer_row_that_was_just_inserted[1],
@@ -48,8 +54,10 @@ class CustomerService:
                     "address": customer_row_that_was_just_inserted[3],
                     "mobile_phone": customer_row_that_was_just_inserted[4]
                 }}
-        except CustomerAlreadyExistError as e:
-            return {"message": str(e)}, 400
+        except CustomerAlreadyExistError:
+            print("kappu")
+            raise CustomerAlreadyExistError(f"Customer already exists with id {id_num}")
+            # return {"message": str(e)}, 400
 
     @staticmethod
     def get_customer_by_id(id_num):
@@ -88,6 +96,3 @@ class CustomerService:
             raise UserNotFoundError(f"Customer with id {id_num} was not found")
 
         return updated_info
-
-
-
