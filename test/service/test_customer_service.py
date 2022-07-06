@@ -160,7 +160,7 @@ def test_update_customer_by_id_positive(mocker):
         actual = CustomerService.update_customer_by_id(id_num, data)
 
         # Assert
-        actual == {
+        var = actual == {
             "Information of customer with id number POGUwa12 is updated as": {
                 "address": "NEPAL",
                 "id_num": "POGUwa12",

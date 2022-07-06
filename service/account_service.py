@@ -84,6 +84,7 @@ class AccountService:
     def get_account_of_a_customer_with_account_num(customer_id_num, account_num):
         # return AccountDao.get_account_of_a_customer_with_account_num(customer_id_num, account_num)
         account_of_a_customer = AccountDao.get_account_of_a_customer_with_account_num(customer_id_num, account_num)
+        print(f"Account of a customer: {account_of_a_customer}")
         if account_of_a_customer:
             return AccountUtility.get_and_format_customer_individual_account(customer_id_num, account_of_a_customer)
         raise UserNotFoundError(f"Account number {account_num} of Customer having id {customer_id_num} not found !!!")

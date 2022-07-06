@@ -97,3 +97,30 @@ def test_add_customer_account_positive(mocker):
             "balance": 21000
         }
     }
+
+
+def test_get_account_of_a_customer_with_account_num_positive(mocker):
+    # Arrange
+    def mock_get_account_of_a_customer_with_account_num(customer_id_num, account_num):
+        if customer_id_num == "NAMAN108" and account_num == 6:
+            ((6, 'Laxmi Chaudhary', 'NAMAN108', 1, 21000),)
+        else:
+            raise UserNotFoundError(
+                f"Account number {account_num} of the customer having id number {customer_id_num} cannot be updated!!! Please check account num or the customer id num ")
+
+        mocker.patch("dao.Account_dao.AccountDao.get_account_of_a_customer_with_account_num",
+                     mock_get_account_of_a_customer_with_account_num)
+
+    # Act
+    actual = AccountService.get_account_of_a_customer_with_account_num("NAMAN108", 6)
+
+    # Assert
+    var = actual == {
+        "Details of account number 6 ": [
+            {
+                "account_type_id": 1,
+                "balance": 21000,
+                "name": "Laxmi Chaudhary"
+            }
+        ]
+    }
