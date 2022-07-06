@@ -94,8 +94,6 @@ def test_add_customer_negative(mocker):
     # Arrange
     def mock_test_add_customer(customer_data):
         if customer_data == ('Oggy Poggy', 'POGU108', 'Toronto, CA', '612-561-8977'):
-        #     return 39, 'Oggy Poggy', 'POGU108', 'Toronto, CA', '612-561-8977'
-        # else:
             raise CustomerAlreadyExistError(f"Customer already exists with id POGU108")
 
     mocker.patch('dao.customer_dao.CustomerDao.add_customer', mock_test_add_customer)
@@ -103,3 +101,20 @@ def test_add_customer_negative(mocker):
     with pytest.raises(CustomerAlreadyExistError) as e:
         data1 = {'address': 'Toronto, CA', 'id_num': 'POGU108', 'mobile_phone': '612-561-8977', 'name': 'Oggy Poggy'}
         actual = CustomerService.add_customer(data1)
+
+
+def test_delete_customer_by_id_positive(mocker):
+    # Arrange
+    def mock_delete_customer_by_id(id_num):
+        if id_num == "CSBY367":
+            return True
+        else:
+            return False
+
+    mocker.patch("dao.customer_dao.CustomerDao.delete_customer_by_id", mock_delete_customer_by_id)
+
+    # ACT
+    actual = CustomerService.delete_customer_by_id("CSBY367")
+
+    # Assert
+    assert actual == f"Customer with id number CSBY367 successfully deleted"
