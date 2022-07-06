@@ -118,3 +118,18 @@ def test_delete_customer_by_id_positive(mocker):
 
     # Assert
     assert actual == f"Customer with id number CSBY367 successfully deleted"
+
+
+def test_delete_customer_by_id_negative(mocker):
+    # Arrange
+    def mock_delete_customer_by_id(id_num):
+        if id_num == "CSBY367":
+            return True
+        else:
+            return False
+
+    mocker.patch("dao.customer_dao.CustomerDao.delete_customer_by_id", mock_delete_customer_by_id)
+
+    # Act & Assert
+    with pytest.raises(UserNotFoundError) as e:
+        actual = CustomerService.delete_customer_by_id("AUM21")
