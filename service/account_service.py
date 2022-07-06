@@ -10,6 +10,7 @@ class AccountService:
     @staticmethod
     def get_all_accounts():
         account_all_list = AccountDao.get_all_accounts()
+        print(f"get all accounts DAO {account_all_list}")
         account_all_list_formatted = []
         for i in account_all_list:
             account_num = i[0]
@@ -23,6 +24,7 @@ class AccountService:
     @staticmethod
     def get_customer_account(customer_id_num):
         all_accounts_of_customer = AccountDao.get_customer_account(customer_id_num)
+        print(f"get_customer_account {all_accounts_of_customer}")
         if all_accounts_of_customer:
             return AccountUtility.get_and_format_customer_account(customer_id_num, all_accounts_of_customer)
 
