@@ -133,3 +133,38 @@ def test_delete_customer_by_id_negative(mocker):
     # Act & Assert
     with pytest.raises(UserNotFoundError) as e:
         actual = CustomerService.delete_customer_by_id("AUM21")
+
+
+def test_update_customer_by_id_positive(mocker):
+    # Arrange
+    def mocker_update_customer_by_id(id_num, data):
+        if id_num == "POGUwa12" and data == {'address': 'NEPAL', 'id_num': 'POGUwa12', 'mobile_phone': '612-561-8977',
+                                             'name': 'Oggy-Poggy'}:
+            return {
+                "Information of customer with id number POGUwa12 is updated as": {
+                    "address": "NEPAL",
+                    "id_num": "POGUwa12",
+                    "mobile_phone": "612-561-8977",
+                    "name": "Oggy-Poggy"
+                }
+            }
+        else:
+            return None
+
+        mocker.patch("dao.customer_dao.CustomerDao.delete_customer_by_id", mocker_update_customer_by_id)
+
+        # Actual
+        id_num = "POGUwa12"
+        data = {'address': 'NEPAL', 'id_num': 'POGUwa12', 'mobile_phone': '612-561-8977',
+                'name': 'Oggy-Poggy'}
+        actual = CustomerService.update_customer_by_id(id_num, data)
+
+        # Assert
+        actual == {
+                "Information of customer with id number POGUwa12 is updated as": {
+                    "address": "NEPAL",
+                    "id_num": "POGUwa12",
+                    "mobile_phone": "612-561-8977",
+                    "name": "Oggy-Poggy"
+                }
+            }

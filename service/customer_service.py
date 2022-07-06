@@ -91,6 +91,7 @@ class CustomerService:
 
     @staticmethod
     def update_customer_by_id(id_num, data):
+        print(f"update data {data}")
         updated_info = CustomerDao.update_customer_by_id(id_num, data)
         if not updated_info:
             raise UserNotFoundError(f"Customer with id {id_num} was not found")
