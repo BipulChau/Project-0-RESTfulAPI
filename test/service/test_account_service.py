@@ -1,7 +1,8 @@
 import pytest
 
-import dao.Account_dao
+from dao.Account_dao import AccountDao
 from service.account_service import AccountService
+from exception.user_not_found import UserNotFoundError
 
 
 def test_get_all_accounts(mocker):
@@ -57,3 +58,17 @@ def test_get_customer_account_positive(mocker):
         ]
     }
 
+
+def test_get_customer_account_negative(mocker):
+    # Arrange
+    def mock_get_customer_account(customer_id_num):
+        if customer_id_num == "NAMAN108":
+            return (6, 'Laxmi Chaudhary', 'NAMAN108', 1, 21000),
+        else:
+            return ()
+
+    mocker.patch("dao.Account_dao.AccountDao.get_customer_account", mock_get_customer_account)
+
+    # Act and Assert
+    with pytest.raises(UserNotFoundError) as e:
+        actual = AccountService.get_customer_account("CSBY367")
