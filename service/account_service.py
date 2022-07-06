@@ -91,6 +91,8 @@ class AccountService:
     @staticmethod
     def update_account_of_customer(customer_id_num, account_num, data):
         updated_account_info = AccountDao.update_account_of_customer(customer_id_num, account_num, data)
+        print(f"Data is : {data}")
+        print(f"Return from Dao is: {updated_account_info}")
         if not updated_account_info:
             raise UserNotFoundError(f"Account number {account_num} of the customer having id number {customer_id_num} cannot be updated!!! Please check account num or the customer id num ")
 
