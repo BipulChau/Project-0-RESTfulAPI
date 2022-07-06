@@ -33,7 +33,12 @@ def get_customer_account(customer_id_num):
                    }, 404
 
     data = request.get_json()  # Create a new account for a customer with id of X. This block of code executes when flask.request.method == "POST"
-    return AccountService.add_customer_account(customer_id_num, data)
+    try:
+        return AccountService.add_customer_account(customer_id_num, data)
+    except UserNotFoundError as e:
+        return {
+                   "message": str(e)
+               }, 404
 
 
 @ac.route("/customer/<customer_id_num>/account/<account_num>", methods=["GET", "PUT", "Delete"])

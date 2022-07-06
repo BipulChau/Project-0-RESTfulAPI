@@ -81,7 +81,7 @@ def test_add_customer_account_positive(mocker):
         if customer_id_num == "NAMAN108" and data == {'account_type_id': 2, 'balance': 21000}:
             return 7, 'NAMAN108', 2, 21000
         else:
-            raise (
+            raise UserNotFoundError(
                 f"Account cannot be created for the customer having an id of {customer_id_num} because it does not exist!!!")
 
     mocker.patch("dao.Account_dao.AccountDao.add_customer_account", mock_add_customer_account)
@@ -97,6 +97,22 @@ def test_add_customer_account_positive(mocker):
             "balance": 21000
         }
     }
+
+
+def test_add_customer_account_negative(mocker):
+    # Arrange
+    def mock_add_customer_account(customer_id_num, data):
+        if customer_id_num == "NAMAN108" and data == {'account_type_id': 2, 'balance': 21000}:
+            return 7, 'NAMAN108', 2, 21000
+        else:
+            raise UserNotFoundError(
+                f"Account cannot be created for the customer having an id of {customer_id_num} because it does not exist!!!")
+
+    mocker.patch("dao.Account_dao.AccountDao.add_customer_account", mock_add_customer_account)
+
+    # Act & Assert
+    with pytest.raises(UserNotFoundError) as e:
+        actual = AccountService.add_customer_account("CSBY367", {'account_type_id': 2, 'balance': 21000} )
 
 
 def test_get_account_of_a_customer_with_account_num_positive(mocker):
