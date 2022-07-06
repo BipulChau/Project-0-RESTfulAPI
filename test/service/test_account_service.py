@@ -183,3 +183,18 @@ def test_update_account_of_customer_positive(mocker):
             "customer_id_num": "CSBY367"
         }
     }
+
+def test_update_account_of_customer_negative(mocker):
+    # Arrange
+    def mock_update_account_of_customer(customer_id_num, account_num, data):
+        if customer_id_num == "CSBY367" and account_num == 4 and data == {'balance': 70000000}:
+            return 4, 'CSBY367', 2, 70000000
+        else:
+            raise UserNotFoundError(
+                f"Account number {account_num} of the customer having id number {customer_id_num} cannot be updated!!! Please check account num or the customer id num ")
+
+    mocker.patch("dao.Account_dao.AccountDao.update_account_of_customer", mock_update_account_of_customer)
+
+    # ACT & Assert
+    with pytest.raises(UserNotFoundError) as e:
+        actual = AccountService.update_account_of_customer("AUM21", 4, {'balance': 70000000})
