@@ -219,3 +219,17 @@ def test_delete_account_of_customer_positive(mocker):
     var = actual == f"Account number 4 of the customer having id number CSBY367 successfully deleted"
 
 
+def test_delete_account_of_customer_negative(mocker):
+    # Arrange
+    def mock_delete_account_of_customer(customer_id_num, account_num):
+        if customer_id_num == "CSBY367" and account_num == 4:
+            return True
+        else:
+            return False
+
+    mocker.patch("dao.Account_dao.AccountDao.delete_account_of_customer", mock_delete_account_of_customer)
+
+    # ACT & ASSERT
+
+    with pytest.raises(UserNotFoundError) as e:
+        actual = AccountService.delete_account_of_customer("AUM21", 4)
