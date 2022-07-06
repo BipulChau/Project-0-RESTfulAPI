@@ -65,6 +65,8 @@ class AccountService:
     def add_customer_account(customer_id_num, data):
         try:
             account_just_created = AccountDao.add_customer_account(customer_id_num, data)
+            print(f"data: {data}")
+            print(f"account just created {account_just_created}")
             if account_just_created:
                 return {
                     f"Account opened for the customer with an id of {customer_id_num}": {
