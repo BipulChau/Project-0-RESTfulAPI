@@ -106,7 +106,7 @@ def test_get_account_of_a_customer_with_account_num_positive(mocker):
             ((6, 'Laxmi Chaudhary', 'NAMAN108', 1, 21000),)
         else:
             raise UserNotFoundError(
-                f"Account number {account_num} of the customer having id number {customer_id_num} cannot be updated!!! Please check account num or the customer id num ")
+                f"Account number {account_num} of Customer having id {customer_id_num} not found !!!")
 
         mocker.patch("dao.Account_dao.AccountDao.get_account_of_a_customer_with_account_num",
                      mock_get_account_of_a_customer_with_account_num)
@@ -124,3 +124,20 @@ def test_get_account_of_a_customer_with_account_num_positive(mocker):
             }
         ]
     }
+
+
+def test_get_account_of_a_customer_with_account_num_negative(mocker):
+    # Arrange
+    def mock_get_account_of_a_customer_with_account_num(customer_id_num, account_num):
+        if customer_id_num == "NAMAN108" and account_num == 6:
+            ((6, 'Laxmi Chaudhary', 'NAMAN108', 1, 21000),)
+        else:
+            raise UserNotFoundError(
+                f"Account number {account_num} of Customer having id {customer_id_num} not found !!!")
+
+        mocker.patch("dao.Account_dao.AccountDao.get_account_of_a_customer_with_account_num",
+                     mock_get_account_of_a_customer_with_account_num)
+
+    # Act & Assert
+    with pytest.raises(UserNotFoundError) as e:
+        actual = AccountService.get_account_of_a_customer_with_account_num("CSBY367", 21)
