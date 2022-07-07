@@ -13,7 +13,7 @@ def get_all_accounts():
     return AccountService.get_all_accounts()
 
 
-@ac.route("/customer/<customer_id_num>/account", methods=["GET", "POST"])
+@ac.route("/customers/<customer_id_num>/accounts", methods=["GET", "POST"])
 def get_customer_account(customer_id_num):
     if flask.request.method == "GET":  # Get all accounts for customer with id
         query_param = request.args
@@ -41,7 +41,7 @@ def get_customer_account(customer_id_num):
                }, 404
 
 
-@ac.route("/customer/<customer_id_num>/account/<account_num>", methods=["GET", "PUT", "Delete"])
+@ac.route("/customers/<customer_id_num>/accounts/<account_num>", methods=["GET", "PUT", "Delete"])
 def get_account_of_a_customer_with_account_num(customer_id_num, account_num):
     if flask.request.method == "GET":  # Get account with id of Y belonging to customer with id of X (if customer and account exist AND if account belongs to customer)
         try:

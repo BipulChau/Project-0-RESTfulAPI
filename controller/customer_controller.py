@@ -17,18 +17,14 @@ def get_home_page():
 
 @cc.route("/customers", methods=["GET", "POST"])
 def get_all_customers():
-    if flask.request.method == "POST":
+    if flask.request.method == "POST":  # Create a new customer
         data = request.get_json()
-        print(f"Data at controller layer: {data}")
-        print(type(data))
         try:
             return CustomerService.add_customer(data)
         except CustomerAlreadyExistError as e:
-            # raise CustomerAlreadyExistError(str(e))
-            print("Tappu")
             return {"message": str(e)}, 400
 
-    else:
+    else:  # Get all customers
         return {
             "customers": CustomerService.get_all_customers()
         }
@@ -57,4 +53,3 @@ def get_customer_by_id(id_num):
             return CustomerService.update_customer_by_id(id_num, data)
         except UserNotFoundError as e:
             return {"message": str(e)}
-
