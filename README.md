@@ -15,7 +15,7 @@ It's a simple API for a bank. It is created using Python programming language an
 Use Postman to check the various endpoints. Also use the below data format while sending POST and PUT Request.
 
 ## URI and POST/PUT Data Format:
-A. Accounts:
+### A. Accounts:
 1. GET All accounts of all the customers: http://127.0.0.1:8080/accounts 
 
 2. Get the account details of a customer: http://127.0.0.1:8080/customers/<customer_id>/accounts. 
@@ -38,7 +38,7 @@ Query parameters are “amountLessThan” and “amountGreaterThan”
 
 6. Delete an account of a customer: http://127.0.0.1:8080/customers/<customer_id>/accounts/<account_no>
 
-B. Customers:
+### B. Customers:
 
 1. GET all customer Details : http://127.0.0.1:8080/customers
 
