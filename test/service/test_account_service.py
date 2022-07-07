@@ -115,6 +115,33 @@ def test_add_customer_account_negative(mocker):
         actual = AccountService.add_customer_account("CSBY367", {'account_type_id': 2, 'balance': 21000})
 
 
+def test_get_account_of_a_customer_with_account_num_positive(mocker):
+    # Arrange
+    def mock_get_account_of_a_customer_with_account_num(customer_id_num, account_num):
+        if customer_id_num == "KO11PA" and account_num == 8:
+            return (8, 'Gemi Parker', 'KO11PA', 1, 70000),
+        else:
+            raise UserNotFoundError(
+                f"Account number {account_num} of Customer having id {customer_id_num} not found !!!")
+
+    mocker.patch("dao.Account_dao.AccountDao.get_account_of_a_customer_with_account_num",
+                 mock_get_account_of_a_customer_with_account_num)
+
+    # Act
+    actual = AccountService.get_account_of_a_customer_with_account_num("KO11PA", 8)
+
+    # Assert
+    var = actual == {
+        "Details of account number 8 ": [
+            {
+                "account_type_id": 1,
+                "balance": 70000,
+                "name": "Gemi Parker"
+            }
+        ]
+    }
+
+
 def test_get_account_of_a_customer_with_account_num_negative(mocker):
     # Arrange
     def mock_get_account_of_a_customer_with_account_num(customer_id_num, account_num):
@@ -206,9 +233,3 @@ def test_delete_account_of_customer_negative(mocker):
 
     with pytest.raises(UserNotFoundError) as e:
         actual = AccountService.delete_account_of_customer("AUM21", 4)
-
-
-
-
-
-
