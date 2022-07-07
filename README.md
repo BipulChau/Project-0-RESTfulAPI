@@ -18,10 +18,10 @@ Use Postman to check the various endpoints. Also use the below data format while
 A. Accounts:
 1. GET All accounts of all the customers: http://127.0.0.1:8080/accounts 
 
-2. Get the account details of a customer: http://127.0.0.1:8080/customers/<customerid>/accounts. 
+2. Get the account details of a customer: http://127.0.0.1:8080/customers/<customer_id>/accounts. 
 Query parameters are “amountLessThan” and “amountGreaterThan”
 
-3. (POST) Add/open a new account of a customer: http://127.0.0.1:8080/customers/<customerid>/accounts 
+3. (POST) Add/open a new account of a customer: http://127.0.0.1:8080/customers/<customer_id>/accounts 
 
 {
     "account_type_id": 1,
