@@ -1,7 +1,7 @@
 # Project0: RESTful API
 
 ## Description:  
-It's a simple API for a bank. It is created using Python programming language and supports 2 main resources: customers and banks.
+It's a simple API for a bank. It is created using Python programming language and supports 2 main resources: customers and accounts.
 
 ## Technologies
 1. Python
@@ -32,7 +32,7 @@ Query parameters are “amountLessThan” and “amountGreaterThan”
 
 5. (PUT) Update balance of a customer in an account: http://127.0.0.1:8080/customers/<customer_id>/accounts/<account_no>
 
-{
+{a
     "balance": 1015
        }
 
