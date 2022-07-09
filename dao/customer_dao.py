@@ -92,5 +92,5 @@ class CustomerDao:
                             "mobile_phone":
                                 updated_customer_row[4]
                         }}
-        except psycopg.errors.UniqueViolation:
-            return f'Update Failed !!! New id_num {data["id_num"]} already exits', 400
+        except (psycopg.errors.UniqueViolation, psycopg.errors.ForeignKeyViolation):
+            return f'Update Failed !!! New id_num {data["id_num"]} cannot be updated', 400

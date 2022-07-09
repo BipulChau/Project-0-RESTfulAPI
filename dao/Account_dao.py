@@ -75,6 +75,7 @@ class AccountDao:
                     print(account_just_created)
                     print(type(account_just_created))
                     return account_just_created
+
         raise UserNotFoundError(
             f"Account cannot be created for the customer having an id of {customer_id_num} because it does not exist!!!")
 
@@ -92,9 +93,11 @@ class AccountDao:
 
     @staticmethod
     def update_account_of_customer(customer_id_num, account_num, data):
-        with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres", password="postgres") as conn:
+        with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
+                             password="postgres") as conn:
             with conn.cursor() as cur:
-                cur.execute("UPDATE accounts SET balance=%s WHERE customer_id_num =%s and account_num=%s RETURNING *", (data["balance"], customer_id_num, account_num))
+                cur.execute("UPDATE accounts SET balance=%s WHERE customer_id_num =%s and account_num=%s RETURNING *",
+                            (data["balance"], customer_id_num, account_num))
                 updated_customer_row = cur.fetchone()
 
                 if not updated_customer_row:
@@ -104,14 +107,14 @@ class AccountDao:
 
     @staticmethod
     def delete_account_of_customer(customer_id_num, account_num):
-        with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres", password="postgres") as conn:
+        with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
+                             password="postgres") as conn:
             with conn.cursor() as cur:
-                cur.execute("DELETE FROM accounts where customer_id_num=%s and account_num=%s", (customer_id_num, account_num))
+                cur.execute("DELETE FROM accounts where customer_id_num=%s and account_num=%s",
+                            (customer_id_num, account_num))
                 rows_deleted = cur.rowcount
                 if not rows_deleted:
                     return False
                 else:
                     conn.commit()
                     return True
-
-
